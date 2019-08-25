@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+group 'com.yerti.runecraft'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenLocal()
+    
+    maven {
+        url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
+    }
+
+    maven {
+        url "https://husk.pro/maven/"
+    }
+}
+
+jar.destinationDir = file("C:\\Users\\chess\\Desktop\\Spigot 1.8\\plugins")
+
+compileJava.options.encoding = "UTF-8"
+
+dependencies {
+    compileOnly "org.bukkit:craftbukkit:1.8.8-R0.1-SNAPSHOT"
+    compileOnly "pro.husk:mysql:1.0"
+}

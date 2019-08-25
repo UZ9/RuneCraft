@@ -1,0 +1,15 @@
+#
+#  fancy logo here that I'm too lazy to add
+#
+
+#Enable mysql database storage
+mysql-enabled: true
+
+#Information for MySQL
+#Don't mess with this if you aren't using it
+mysql:
+  host: 'localhost'
+  port: 3306
+  username: 'root'
+  password: ''
+  database: 'sm'
