@@ -1,12 +1,15 @@
 package com.yerti.runecraft.storage;
 
 
+import com.yerti.runecraft.RuneCraft;
 import com.yerti.runecraft.core.player.RunePlayer;
+import com.yerti.runecraft.managers.LevelManager;
 import com.yerti.runecraft.managers.PlayerSkillManager;
 import com.yerti.runecraft.managers.Skills;
 import com.yerti.runecraft.skills.Skill;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
+import pro.husk.Database;
 import pro.husk.mysql.MySQL;
 
 import java.sql.Connection;
@@ -16,6 +19,8 @@ import java.sql.Statement;
 import java.util.Collection;
 
 public class MySQLSkillStorage implements StorageManager {
+
+    private static MySQL database;
 
     private Plugin plugin;
 
@@ -68,7 +73,7 @@ public class MySQLSkillStorage implements StorageManager {
         user = configuration.getString("mysql.username");
         password = configuration.getString("mysql.password");
 
-        MySQL database = new MySQL(hostName, port, databaseName, user, password, true, true);
+        database = new MySQL(hostName, port, databaseName, user, password, true, true);
         Connection connection;
         try {
             StringBuilder levelStatement = new StringBuilder();
@@ -104,15 +109,36 @@ public class MySQLSkillStorage implements StorageManager {
 
     /**
      * Removes the player from the MySQL database
-     * @param player
+     * @param manager
      */
     @Override
-    public void removePlayer(RunePlayer player) {
+    public void removePlayer(PlayerSkillManager manager) {
+        try {
+            Connection connection = database.openConnection();;
 
+            PreparedStatement levelStatement = connection.prepareStatement("DELETE FROM RuneCraftSkillLevels WHERE user_id LIKE ?");
+            PreparedStatement xpStatement = connection.prepareStatement("DELETE FROM RuneCraftSkillXP WHERE user_id LIKE ?");
+
+            levelStatement.setString(1, manager.getPlayer().getUniqueID().toString());
+            levelStatement.execute();
+
+            xpStatement.setString(1, manager.getPlayer().getUniqueID().toString());
+            xpStatement.execute();
+
+            connection.close();
+
+            connection.close();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
+    /**
+     * Creates a player based off of a PlayerSkillManager
+     * @param manager
+     */
     @Override
-    public void createPlayer(RunePlayer player) {
+    public void createPlayer(PlayerSkillManager manager) {
 
     }
 

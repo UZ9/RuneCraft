@@ -11,10 +11,14 @@ import java.util.UUID;
 
 public class RuneCraft extends JavaPlugin {
 
+    private static RuneCraft instance;
+
     //Stores the skills of each player
     Map<UUID, Skills> skillManagers;
 
     public void onEnable() {
+        instance = this;
+
         //Register Commands
         registerCommands();
 
@@ -47,6 +51,10 @@ public class RuneCraft extends JavaPlugin {
 
     private void loadConfig() {
 
+    }
+
+    public static RuneCraft getInstance() {
+        return instance;
     }
 
 }

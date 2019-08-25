@@ -9,17 +9,19 @@ import java.util.*;
 public class RunePlayer {
 
     private Player player;
-    private LevelManager levelManager;
 
-    private final Map<UUID, LevelManager> skills = new HashMap<>();
+    private static Map<UUID, LevelManager> skills = new HashMap<>();
 
     public RunePlayer(Player player, LevelManager levelManager) {
         this.player = player;
-        this.levelManager = levelManager;
     }
 
     public UUID getUniqueID() {
         return player.getUniqueId();
+    }
+
+    public Map<UUID, LevelManager> getKills() {
+        return skills;
     }
 
 

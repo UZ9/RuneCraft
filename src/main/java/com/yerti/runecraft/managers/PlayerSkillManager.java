@@ -18,7 +18,7 @@ public class PlayerSkillManager {
      * Gets the level map for changing/
      * @return levels list
      */
-    public Map<Skill, java.lang.Integer> getLevels() {
+    public Map<Skill, Integer> getLevels() {
         return levels;
     }
 

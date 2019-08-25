@@ -35,12 +35,12 @@ public class FlatFileStorage implements StorageManager {
     }
 
     @Override
-    public void removePlayer(RunePlayer player) {
+    public void removePlayer(PlayerSkillManager player) {
 
     }
 
     @Override
-    public void createPlayer(RunePlayer player) {
+    public void createPlayer(PlayerSkillManager player) {
 
     }
 }

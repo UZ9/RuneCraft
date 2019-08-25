@@ -21,14 +21,14 @@ public interface StorageManager {
      * Cleans/Removes a player from the storage
      * @param player
      */
-    void removePlayer(RunePlayer player);
+    void removePlayer(PlayerSkillManager player);
 
 
     /**
      * Creates a player if it does not exist
      * @param player
      */
-    void createPlayer(RunePlayer player);
+    void createPlayer(PlayerSkillManager player);
 
 
 
