@@ -1,14 +1,9 @@
 package com.yerti.runecraft.skills;
 
-import com.yerti.runecraft.core.player.RunePlayer;
+public abstract class Skill {
 
-import java.math.BigDecimal;
+    public double xp = 0;
+    public int level = 0;
 
-public interface Skill {
-
-    void setXP(RunePlayer player);
-
-    void addXP(RunePlayer player);
-
-    String getName();
+    public abstract String getName();
 }

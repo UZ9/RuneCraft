@@ -4,6 +4,7 @@ import com.yerti.runecraft.core.player.RunePlayer;
 import com.yerti.runecraft.managers.PlayerSkillManager;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
 public interface StorageManager {
 
@@ -22,6 +23,13 @@ public interface StorageManager {
      * @param player
      */
     void removePlayer(PlayerSkillManager player);
+
+    /**
+     * Retrieves skills and information from a UUID
+     * @param id
+     * @return
+     */
+    PlayerSkillManager retrieveManager(UUID id);
 
 
     /**

@@ -13,3 +13,9 @@ mysql:
   username: 'root'
   password: ''
   database: 'sm'
+
+#Prefix for all messages
+message-prefix: '&7[&cRuneCraft&7]'
+
+#Option for debugging in console
+debug-mode: false

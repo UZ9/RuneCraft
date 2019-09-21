@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
+import java.util.UUID;
 
 public class MySQLSkillStorage implements StorageManager {
 
@@ -48,6 +49,7 @@ public class MySQLSkillStorage implements StorageManager {
      * Password for MYSQL
      */
     private String password;
+
 
     public MySQLSkillStorage(Plugin plugin) {
         this.plugin = plugin;
@@ -131,6 +133,15 @@ public class MySQLSkillStorage implements StorageManager {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    //TODO: Add retrieval of skills
+    @Override
+    public PlayerSkillManager retrieveManager(UUID id) {
+
+
+
+        return null;
     }
 
     /**

@@ -5,6 +5,7 @@ import com.yerti.runecraft.managers.PlayerSkillManager;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.util.UUID;
 
 //TODO: Finish FlatFile
 public class FlatFileStorage implements StorageManager {
@@ -37,6 +38,11 @@ public class FlatFileStorage implements StorageManager {
     @Override
     public void removePlayer(PlayerSkillManager player) {
 
+    }
+
+    @Override
+    public PlayerSkillManager retrieveManager(UUID id) {
+        return null;
     }
 
     @Override

@@ -2,16 +2,35 @@ package com.yerti.runecraft.managers;
 
 import com.yerti.runecraft.core.player.RunePlayer;
 import com.yerti.runecraft.skills.Skill;
+import pro.husk.mysql.MySQL;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerSkillManager {
 
     private RunePlayer player;
 
+    private List<Skill> skills = new ArrayList<>();
     private Map<Skill, Integer> levels = new HashMap<>();
     private Map<Skill, Double> levelsXp = new HashMap<>();
+
+
+
+    /**
+     * Player Manager that stores all of the skills for a player
+     * @param player
+     */
+    public PlayerSkillManager(RunePlayer player) {
+        this.player = player;
+
+
+
+    }
+
+
 
 
     /**
@@ -38,21 +57,14 @@ public class PlayerSkillManager {
         return player;
     }
 
-    /**
-     * Player Manager that stores all of the skills for a player
-     * @param player
-     */
-    public PlayerSkillManager(RunePlayer player) {
-        this.player = player;
-    }
 
     /**
      * Gets the experience of a skill
-     * @param skill
+     * @param name
      * @return XP Amount
      */
-    public double getXp(Skill skill) {
-        return levelsXp.get(skill);
+    public double getXp(String name) {
+        return skills.stream().filter(currentSkill -> (currentSkill.getName().equalsIgnoreCase(name))).findFirst().get().xp;
     }
 
 
