@@ -2,6 +2,7 @@ package com.yerti.runecraft;
 
 import com.yerti.runecraft.core.prototype.YertiPlugin;
 import com.yerti.runecraft.listeners.OnBlockBreakEvent;
+import com.yerti.runecraft.managers.ChatManager;
 import com.yerti.runecraft.managers.Skills;
 import com.yerti.runecraft.storage.MySQLSkillStorage;
 import com.yerti.runecraft.storage.StorageManager;
@@ -17,10 +18,14 @@ public class RuneCraft extends YertiPlugin {
     private static RuneCraft instance;
     private boolean debug;
     private StorageManager storageManager;
+    private ChatManager manager;
 
 
     @Override
     public void onEnable() {
+        //Load Java Command Annotations
+        load();
+
         instance = this;
 
         //Register Commands
@@ -36,6 +41,10 @@ public class RuneCraft extends YertiPlugin {
         storageManager = new MySQLSkillStorage(this);
 
         storageManager.setup();
+
+
+
+
     }
 
     @Override

@@ -15,6 +15,7 @@ import java.util.List;
  * To use, extend CustomCommand and implement the methods needed
  * in OnEnable, create the CustomCommand by doing new CustomCommad(parameters).initCommand(),
  * where parameters are any needed parameters you need.
+ * @deprecated now using annotations
  */
 public abstract class CustomCommand implements CommandExecutor {
 

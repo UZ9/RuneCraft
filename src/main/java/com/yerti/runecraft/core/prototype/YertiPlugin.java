@@ -1,6 +1,6 @@
 package com.yerti.runecraft.core.prototype;
 
-import com.yerti.core.prototype.command.CommandFramework;
+import com.yerti.runecraft.core.prototype.command.CommandFramework;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
