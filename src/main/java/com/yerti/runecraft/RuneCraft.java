@@ -1,5 +1,6 @@
 package com.yerti.runecraft;
 
+import com.yerti.runecraft.core.prototype.YertiPlugin;
 import com.yerti.runecraft.listeners.OnBlockBreakEvent;
 import com.yerti.runecraft.managers.Skills;
 import com.yerti.runecraft.storage.MySQLSkillStorage;
@@ -11,13 +12,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class RuneCraft extends JavaPlugin {
+public class RuneCraft extends YertiPlugin {
 
     private static RuneCraft instance;
     private boolean debug;
     private StorageManager storageManager;
 
 
+    @Override
     public void onEnable() {
         instance = this;
 
@@ -36,6 +38,7 @@ public class RuneCraft extends JavaPlugin {
         storageManager.setup();
     }
 
+    @Override
     public void onDisable() {
 
     }

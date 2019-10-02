@@ -1,21 +1,16 @@
 package com.yerti.runecraft.storage;
 
 
-import com.yerti.runecraft.RuneCraft;
-import com.yerti.runecraft.core.player.RunePlayer;
-import com.yerti.runecraft.managers.LevelManager;
 import com.yerti.runecraft.managers.PlayerSkillManager;
 import com.yerti.runecraft.managers.Skills;
 import com.yerti.runecraft.skills.Skill;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
-import pro.husk.Database;
 import pro.husk.mysql.MySQL;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Collection;
 import java.util.UUID;
 

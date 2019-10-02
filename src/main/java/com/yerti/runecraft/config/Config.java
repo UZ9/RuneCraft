@@ -5,7 +5,6 @@ public class Config {
 
     public Config() {
         instance = this;
-
     }
 
 }
