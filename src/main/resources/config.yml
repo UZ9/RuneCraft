@@ -12,10 +12,10 @@ mysql:
   port: 3306
   username: 'root'
   password: ''
-  database: 'sm'
+  database: 'runecraft'
 
 #Prefix for all messages
-message-prefix: '&7[&cRuneCraft&7]'
+message-prefix: '&8[&eRuneCraft&8]'
 
 #Option for debugging in console
 debug-mode: false

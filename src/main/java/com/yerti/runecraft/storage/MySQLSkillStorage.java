@@ -2,8 +2,7 @@ package com.yerti.runecraft.storage;
 
 
 import com.yerti.runecraft.managers.PlayerSkillManager;
-import com.yerti.runecraft.managers.Skills;
-import com.yerti.runecraft.skills.Skill;
+import com.yerti.runecraft.skills.SkillType;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import pro.husk.mysql.MySQL;
@@ -82,12 +81,12 @@ public class MySQLSkillStorage implements StorageManager {
 
 
             //Add all of the skills for their levels
-            for (Enum skill : Skills.values()) {
+            for (Enum skill : SkillType.values()) {
                 levelStatement.append(skill.toString().toLowerCase() + " decimal(64, 0), ");
             }
 
             //Add all of the skills for their xp
-            for (Enum skill : Skills.values()) {
+            for (Enum skill : SkillType.values()) {
                 xpStatement.append(skill.toString().toLowerCase() + " decimal(64, 2), ");
             }
 
@@ -116,10 +115,10 @@ public class MySQLSkillStorage implements StorageManager {
             PreparedStatement levelStatement = connection.prepareStatement("DELETE FROM RuneCraftSkillLevels WHERE user_id LIKE ?");
             PreparedStatement xpStatement = connection.prepareStatement("DELETE FROM RuneCraftSkillXP WHERE user_id LIKE ?");
 
-            levelStatement.setString(1, manager.getPlayer().getUniqueID().toString());
+            levelStatement.setString(1, manager.getPlayer().getUniqueId().toString());
             levelStatement.execute();
 
-            xpStatement.setString(1, manager.getPlayer().getUniqueID().toString());
+            xpStatement.setString(1, manager.getPlayer().getUniqueId().toString());
             xpStatement.execute();
 
             connection.close();
@@ -174,8 +173,8 @@ public class MySQLSkillStorage implements StorageManager {
             StringBuilder levelStatement = new StringBuilder();
             levelStatement.append("UPDATE RuneCraftSkillLevels SET ");
 
-            for (Skill skill : manager.getLevels().keySet()) {
-                levelStatement.append(skill.getName().toLowerCase() + " = ?, ");
+            for (SkillType skill : manager.getLevels().keySet()) {
+                levelStatement.append(skill.toString().toLowerCase() + " = ?, ");
             }
 
             levelStatement.append("WHERE user_id = ?");
@@ -186,15 +185,15 @@ public class MySQLSkillStorage implements StorageManager {
                 statement.setInt(i, levels.toArray(new Integer[levels.size()])[i]);
             }
 
-            statement.setString(levels.size() + 1, manager.getPlayer().getUniqueID().toString());
+            statement.setString(levels.size() + 1, manager.getPlayer().getUniqueId().toString());
 
             statement.close();
 
             //Saving experience
             StringBuilder experienceStatement = new StringBuilder("UPDATE RuneCraftSkillXP SET ");
 
-            for (Skill skill : manager.getLevels().keySet()) {
-                experienceStatement.append(skill.getName().toLowerCase() + " = ?, ");
+            for (SkillType skill : manager.getLevels().keySet()) {
+                experienceStatement.append(skill.toString().toLowerCase() + " = ?, ");
             }
 
             experienceStatement.append("WHERE user_id = ?");
@@ -205,7 +204,7 @@ public class MySQLSkillStorage implements StorageManager {
                 statement.setDouble(i, experience.toArray(new Double[experience.size()])[i]);
             }
 
-            statement.setString(experience.size() + 1, manager.getPlayer().getUniqueID().toString());
+            statement.setString(experience.size() + 1, manager.getPlayer().getUniqueId().toString());
 
             statement.close();
 

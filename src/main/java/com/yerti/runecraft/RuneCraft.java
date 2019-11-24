@@ -3,17 +3,13 @@ package com.yerti.runecraft;
 import com.yerti.runecraft.core.prototype.YertiPlugin;
 import com.yerti.runecraft.listeners.OnBlockBreakEvent;
 import com.yerti.runecraft.managers.ChatManager;
-import com.yerti.runecraft.managers.Skills;
 import com.yerti.runecraft.storage.MySQLSkillStorage;
 import com.yerti.runecraft.storage.StorageManager;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class RuneCraft extends YertiPlugin {
+
+    public static final String playerDataKey = "RuneCraft Profile";
 
     private static RuneCraft instance;
     private boolean debug;

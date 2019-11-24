@@ -1,21 +1,19 @@
 package com.yerti.runecraft.managers;
 
 import com.yerti.runecraft.core.player.RunePlayer;
-import com.yerti.runecraft.skills.Skill;
-import pro.husk.mysql.MySQL;
+import com.yerti.runecraft.skills.SkillType;
+import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class PlayerSkillManager {
+public class PlayerSkillManager implements Serializable {
 
-    private RunePlayer player;
+    private Player player;
 
-    private List<Skill> skills = new ArrayList<>();
-    private Map<Skill, Integer> levels = new HashMap<>();
-    private Map<Skill, Double> levelsXp = new HashMap<>();
+    private Map<SkillType, Integer> levels = new HashMap<>();
+    private Map<SkillType, Double> levelsXp = new HashMap<>();
 
 
 
@@ -23,11 +21,13 @@ public class PlayerSkillManager {
      * Player Manager that stores all of the skills for a player
      * @param player
      */
-    public PlayerSkillManager(RunePlayer player) {
+    public PlayerSkillManager(Player player) {
         this.player = player;
 
-
-
+        for (SkillType type : SkillType.values()) {
+            levels.put(type, 0);
+            levelsXp.put(type, 0.);
+        }
     }
 
 
@@ -37,7 +37,7 @@ public class PlayerSkillManager {
      * Gets the level map for changing/
      * @return levels list
      */
-    public Map<Skill, Integer> getLevels() {
+    public Map<SkillType, Integer> getLevels() {
         return levels;
     }
 
@@ -45,7 +45,7 @@ public class PlayerSkillManager {
      * Gets the xp map for changing/
      * @return levelsXp list
      */
-    public Map<Skill, Double> getLevelsXp() {
+    public Map<SkillType, Double> getLevelsXp() {
         return levelsXp;
     }
 
@@ -53,7 +53,7 @@ public class PlayerSkillManager {
      * Gets the player the SkillManager belongs to
      * @return the player
      */
-    public RunePlayer getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
@@ -64,7 +64,7 @@ public class PlayerSkillManager {
      * @return XP Amount
      */
     public double getXp(String name) {
-        return skills.stream().filter(currentSkill -> (currentSkill.getName().equalsIgnoreCase(name))).findFirst().get().xp;
+        return levelsXp.get(SkillType.valueOf(name.toUpperCase()));
     }
 
 
@@ -72,11 +72,19 @@ public class PlayerSkillManager {
      * Sets the experience of a skill
      * @param skill
      */
-    public void setXp(Skill skill, double xp) {
+    public void setXp(SkillType skill, double xp) {
         levelsXp.put(skill, xp);
         levels.put(skill, calculateLevel(xp));
     }
 
+    /**
+     * Adds experience to a skill
+     * @param skill
+     */
+    public void addXp(SkillType skill, double xp) {
+        levelsXp.put(skill, levelsXp.get(skill) + 1);
+        levels.put(skill, calculateLevel(xp));
+    }
 
     //TODO: Maybe move this into a file for the values instead
 
