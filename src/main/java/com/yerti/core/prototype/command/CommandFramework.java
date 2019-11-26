@@ -50,12 +50,6 @@ public class CommandFramework implements CommandExecutor {
             } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-            /*try {
-                object = method.getClass().newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
-                e.printStackTrace();
-            }*/
-            System.out.println("Found class " + object.getClass().getName());
 
             if (!method.isAnnotationPresent(CustomCommand.class)) {
                 continue;
@@ -74,7 +68,7 @@ public class CommandFramework implements CommandExecutor {
 
             final BukkitCommandExtension bukkitCommandExtension = new BukkitCommandExtension(customCommand, this);
 
-            commandMap.put(plugin.getName(), customCommand);
+            commandMap.put(customCommand.getName(), customCommand);
             commands.put(customCommand, object);
             map.register(plugin.getName(), bukkitCommandExtension);
 
@@ -91,9 +85,15 @@ public class CommandFramework implements CommandExecutor {
 
             if (parameterType.length > 3)
                 if (parameterType[0] != CommandSender.class || parameterType[1] != Command.class || parameterType[2] != String[].class) {
-                    Bukkit.getLogger().log(Level.SEVERE, "Unable to register subcommand " + method.getName() + "."); }
+                    Bukkit.getLogger().log(Level.SEVERE, "Unable to register subcommand " + method.getName() + ".");
+                }
                 SubCommand subCommand = method.getAnnotation(SubCommand.class);
                 BukkitCommand parent = commandMap.get(subCommand.parent());
+                if (parent == null) {
+
+                    Bukkit.getLogger().log(Level.SEVERE, "Unable to register subcommand " + method.getName() + " because the parent " + subCommand.parent() + " was null.");
+                    continue;
+                }
 
                 BukkitCommand command = new BukkitCommand(
                   subCommand.name(),
@@ -114,7 +114,10 @@ public class CommandFramework implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command cmd, String s, String[] strings) {
+
+
         for (BukkitCommand bukkitCommand : commands.keySet()) {
+
             if (bukkitCommand.getName().equalsIgnoreCase(cmd.getName())) {
                 Method method = bukkitCommand.getMethod();
                 Object object = commands.get(bukkitCommand);
@@ -129,25 +132,54 @@ public class CommandFramework implements CommandExecutor {
                 //if (!customCommand.)
 
 
-                try {
-                    method.invoke(object, commandSender,  cmd, strings);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    if (RuneCraft.getInstance().debugMode()) {
-                        System.out.println("Caught invoke exception.");
-                        e.printStackTrace();
-                    } else {
-                        System.out.println("Caught invoke exception.");
-                    }
 
+                if (bukkitCommand.getSubCommands().isEmpty() || strings.length == 0) {
+
+                    try {
+                        method.invoke(object, commandSender, cmd, strings);
+
+                    } catch (IllegalAccessException | InvocationTargetException e) {
+                        e.printStackTrace();
+
+                    }
+                } else {
+                    for (BukkitCommand subCommand : bukkitCommand.getSubCommands()) {
+                        Method subMethod = subCommand.getMethod();
+
+                        Object obj = null;
+                        String name = commandClass.getName();
+                        try {
+                            Class<?> clazz = Class.forName(name);
+                            obj = clazz.newInstance();
+
+
+                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        SubCommand command = subMethod.getAnnotation(SubCommand.class);
+                        if (!command.permission().isEmpty() && !commandSender.hasPermission(command.permission())) {
+                            //TODO: DI Error message from subclass
+                            commandSender.sendMessage("You don't have permission for that!");
+                            return true;
+                        }
+
+
+                        if (!strings[0].equalsIgnoreCase(command.name())) continue;
+
+                        try {
+                            subMethod.invoke(obj, commandSender, cmd, strings);
+                        } catch (IllegalAccessException | InvocationTargetException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 
-            for (BukkitCommand subCommand : bukkitCommand.getSubCommands()) {
-                Method subMethod = subCommand.getMethod();
-                Object object = subCommand.getExecutor();
-                SubCommand command = subMethod.getAnnotation(SubCommand.class);
 
-            }
+
+
         }
 
         return false;
