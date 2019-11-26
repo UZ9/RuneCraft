@@ -1,6 +1,5 @@
 package com.yerti.runecraft.managers;
 
-import com.yerti.runecraft.core.player.RunePlayer;
 import com.yerti.runecraft.skills.SkillType;
 import org.bukkit.entity.Player;
 
@@ -10,8 +9,6 @@ import java.util.Map;
 
 public class PlayerSkillManager implements Serializable {
 
-    private Player player;
-
     private Map<SkillType, Integer> levels = new HashMap<>();
     private Map<SkillType, Double> levelsXp = new HashMap<>();
 
@@ -19,10 +16,8 @@ public class PlayerSkillManager implements Serializable {
 
     /**
      * Player Manager that stores all of the skills for a player
-     * @param player
      */
-    public PlayerSkillManager(Player player) {
-        this.player = player;
+    public PlayerSkillManager() {
 
         for (SkillType type : SkillType.values()) {
             levels.put(type, 0);
@@ -47,14 +42,6 @@ public class PlayerSkillManager implements Serializable {
      */
     public Map<SkillType, Double> getLevelsXp() {
         return levelsXp;
-    }
-
-    /**
-     * Gets the player the SkillManager belongs to
-     * @return the player
-     */
-    public Player getPlayer() {
-        return player;
     }
 
 

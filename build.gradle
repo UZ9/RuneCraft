@@ -8,8 +8,14 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
+    mavenCentral()
+    jcenter()
     mavenLocal()
-    
+
+    flatDir {
+        dirs 'src/main/java/resources'
+    }
+
     maven {
         url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
     }
@@ -25,5 +31,5 @@ compileJava.options.encoding = "UTF-8"
 
 dependencies {
     compileOnly "org.bukkit:craftbukkit:1.8.8-R0.1-SNAPSHOT"
-    compileOnly "pro.husk:mysql:1.0"
 }
+

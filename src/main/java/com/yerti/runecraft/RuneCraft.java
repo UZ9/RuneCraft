@@ -1,7 +1,8 @@
 package com.yerti.runecraft;
 
-import com.yerti.runecraft.core.prototype.YertiPlugin;
+import com.yerti.core.prototype.YertiPlugin;
 import com.yerti.runecraft.listeners.OnBlockBreakEvent;
+import com.yerti.runecraft.listeners.PlayerEvent;
 import com.yerti.runecraft.managers.ChatManager;
 import com.yerti.runecraft.storage.MySQLSkillStorage;
 import com.yerti.runecraft.storage.StorageManager;
@@ -19,7 +20,7 @@ public class RuneCraft extends YertiPlugin {
 
     @Override
     public void onEnable() {
-        //Load Java Command Annotations
+        //Load Java CustomCommand Annotations
         load();
 
         instance = this;
@@ -55,6 +56,7 @@ public class RuneCraft extends YertiPlugin {
 
     private void registerEvents() {
         Bukkit.getPluginManager().registerEvents(new OnBlockBreakEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerEvent(), this);
     }
 
     private void loadConfig() {

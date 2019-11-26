@@ -1,15 +1,14 @@
 package com.yerti.runecraft.commands;
 
-import com.yerti.runecraft.RuneCraft;
-import com.yerti.runecraft.core.prototype.command.Command;
+import com.yerti.core.prototype.command.CustomCommand;
 import com.yerti.runecraft.managers.ChatManager;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class RuneCraftCommand {
 
-    @Command(name = "runecraft", permission = "", aliases = "rc", description = "Base Command for runecraft", usage = "/runecraft")
-    public void set(CommandSender sender,  Command command, String[] args) {
+    @CustomCommand(name = "runecraft", permission = "", aliases = "rc", description = "Base CustomCommand for runecraft", usage = "/runecraft")
+    public void set(CommandSender sender,  org.bukkit.command.Command command, String[] args) {
 
         if (!(sender instanceof Player)) {
             System.out.println("Only players are allowed to use this command!");

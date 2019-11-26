@@ -1,7 +1,7 @@
 package com.yerti.runecraft.storage;
 
-import com.yerti.runecraft.core.player.RunePlayer;
 import com.yerti.runecraft.managers.PlayerSkillManager;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
@@ -26,7 +26,7 @@ public class FlatFileStorage implements StorageManager {
     }
 
     @Override
-    public void savePlayer(PlayerSkillManager skills) {
+    public void savePlayer(Player skills) {
 
 
 
@@ -36,7 +36,7 @@ public class FlatFileStorage implements StorageManager {
     }
 
     @Override
-    public void removePlayer(PlayerSkillManager player) {
+    public void removePlayer(Player player) {
 
     }
 
