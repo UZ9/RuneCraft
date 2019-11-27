@@ -1,16 +1,19 @@
 package com.yerti.runecraft.commands;
 
-import com.yerti.core.prototype.command.CustomCommand;
-import com.yerti.core.prototype.command.SubCommand;
+import com.yerti.core.command.CustomCommand;
+import com.yerti.core.command.SubCommand;
 import com.yerti.runecraft.managers.ChatManager;
+import com.yerti.runecraft.player.RunePlayer;
+import com.yerti.runecraft.skills.SkillType;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class RuneCraftCommand {
 
-    @CustomCommand(name = "runecraft", permission = "", aliases = "rc", description = "Base CustomCommand for runecraft", usage = "/runecraft")
+    @CustomCommand(name = "runecraft", permission = "", aliases = "rc", description = "Base rCusfesftomCommand for runecraft", usage = "/runecraft")
     public void runecraftCommand(CommandSender sender, org.bukkit.command.Command command, String[] args) {
 
         if (!(sender instanceof Player)) {
@@ -20,9 +23,7 @@ public class RuneCraftCommand {
 
         Player player = (Player) sender;
 
-
-        ChatManager manager = new ChatManager(player);
-        manager.info("RuneCraft Plugin, developed by Yerti.");
+        ChatManager.info(player, "RuneCraft Plugin, developed by Yerti.");
 
 
     }
@@ -36,8 +37,10 @@ public class RuneCraftCommand {
 
         Player player = (Player) sender;
 
-        ChatManager manager = new ChatManager(player);
-        manager.info("You have used the wack command. Epic!");
+
+        RunePlayer runePlayer = RunePlayer.getPlayer(player);
+
+        ChatManager.info(player, player.getName() + " has " + ChatColor.YELLOW + runePlayer.getLevelManager().getLevelsXp().get(SkillType.MINING) + ChatColor.GRAY + " levels in mining.");
     }
 
     @SubCommand(parent = "runecraft", name = "wack2", permission = "", usage = "/runecraft wack", description = "Does stuff")
@@ -49,8 +52,7 @@ public class RuneCraftCommand {
 
         Player player = (Player) sender;
 
-        ChatManager manager = new ChatManager(player);
-        manager.info("You have used the wack command. Epic!");
+        ChatManager.info(player, "You have used the wack command. Epic!");
     }
 
 }

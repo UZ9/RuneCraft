@@ -1,10 +1,11 @@
 package com.yerti.runecraft.storage;
 
 
-import com.yerti.core.player.RunePlayer;
+import com.yerti.runecraft.player.RunePlayer;
 import com.yerti.runecraft.RuneCraft;
 import com.yerti.runecraft.managers.PlayerSkillManager;
 import com.yerti.runecraft.skills.SkillType;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -74,8 +75,8 @@ public class MySQLSkillStorage implements StorageManager {
             }
 
             //Create levels and experience
-            prepareStatement("CREATE TABLE IF NOT EXISTS RuneCraftSkillLevels (user_id numeric, PRIMARY KEY(user_id), " + levelStatement + ")").execute();
-            prepareStatement("CREATE TABLE IF NOT EXISTS RuneCraftSkillXP (user_id numeric, PRIMARY KEY(user_id), "    + xpStatement + ")").execute();
+            prepareStatement("CREATE TABLE IF NOT EXISTS RuneCraftSkillLevels (user_id int NOT NULL AUTO_INCREMENT, PRIMARY KEY(user_id), name tinytext, " + levelStatement + ")").execute();
+            prepareStatement("CREATE TABLE IF NOT EXISTS RuneCraftSkillXP (user_id int NOT NULL AUTO_INCREMENT, PRIMARY KEY(user_id), name tinytext, "    + xpStatement + ")").execute();
 
 
         } catch (SQLException e) {
@@ -90,38 +91,46 @@ public class MySQLSkillStorage implements StorageManager {
      */
     @Override
     public void removePlayer(Player player) {
-        /*try {
+        try {
 
-            PreparedStatement levelStatement = prepareStatement("DELETE FROM RuneCraftSkillLevels WHERE user_id LIKE ?");
-            PreparedStatement xpStatement = prepareStatement("DELETE FROM RuneCraftSkillXP WHERE user_id LIKE ?");
+            PreparedStatement levelStatement = prepareStatement("DELETE FROM RuneCraftSkillLevels WHERE name LIKE ?");
+            PreparedStatement xpStatement = prepareStatement("DELETE FROM RuneCraftSkillXP WHERE name LIKE ?");
 
-            levelStatement.setString(1, manager.getPlayer().getUniqueId().toString());
+            levelStatement.setString(1, player.getUniqueId().toString());
             levelStatement.execute();
 
-            xpStatement.setString(1, manager.getPlayer().getUniqueId().toString());
+            xpStatement.setString(1, player.getPlayer().getUniqueId().toString());
             xpStatement.execute();
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 
     //TODO: Add retrieval of skills
     @Override
     public PlayerSkillManager retrieveManager(UUID id) {
 
+        PlayerSkillManager manager = new PlayerSkillManager();
+
+        PreparedStatement statement = prepareStatement("SELECT * FROM RuneCraftSkillXP WHERE name = ?");
+        try {
+            statement.setString(1, id.toString());
+
+            ResultSet set = statement.executeQuery();
 
 
-        return null;
-    }
 
-    /**
-     * Creates a player based off of a PlayerSkillManager
-     * @param manager
-     */
-    @Override
-    public void createPlayer(PlayerSkillManager manager) {
+            ResultSetMetaData metaData = set.getMetaData();
+            for (int i = 3; i < metaData.getColumnCount(); i++) {
+                manager.setXp(SkillType.valueOf(metaData.getColumnName(i)), set.getDouble(i));
+            }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return manager;
     }
 
     /**
@@ -131,14 +140,22 @@ public class MySQLSkillStorage implements StorageManager {
     @Override
     public void savePlayer(Player player)  {
 
-        RunePlayer player1 = RunePlayer.getPlayer(player);
-        PlayerSkillManager manager = player1.getLevelManager();
+
+        setDefaultSkills("runecraftskilllevels", player);
+        setDefaultSkills("runecraftskillxp", player);
+
+        PlayerSkillManager manager = retrieveManager(player.getUniqueId());
 
         Collection<Integer> levels = manager.getLevels().values();
         Collection<Double> experience = manager.getLevelsXp().values();
 
 
         PreparedStatement statement = null;
+
+
+
+
+
         try {
 
 
@@ -151,18 +168,23 @@ public class MySQLSkillStorage implements StorageManager {
             levelStatement.append("UPDATE RuneCraftSkillLevels SET ");
 
             for (SkillType skill : manager.getLevels().keySet()) {
-                levelStatement.append(skill.toString().toLowerCase()).append(" = ?, ");
+                levelStatement.append(skill.toString().toLowerCase()).append(SkillType.values()[SkillType.values().length - 1] != skill ? " = ?, " : " = ? ");
             }
 
-            levelStatement.append("WHERE user_id = ?");
+            levelStatement.append("WHERE name LIKE ?");
 
             statement = prepareStatement(levelStatement.toString());
 
-            for (int i = 1; i <= levels.size(); i++) {
-                statement.setInt(i, levels.toArray(new Integer[0])[i]);
+            for (int i = 0; i < levels.size(); i++) {
+                statement.setInt(i + 1, levels.toArray(new Integer[0])[i]);
             }
 
             statement.setString(levels.size() + 1, player.getUniqueId().toString());
+
+
+            statement.execute();
+
+
 
             statement.close();
 
@@ -173,11 +195,11 @@ public class MySQLSkillStorage implements StorageManager {
                 experienceStatement.append(skill.toString().toLowerCase()).append(" = ?, ");
             }
 
-            experienceStatement.append("WHERE user_id = ?");
+            experienceStatement.append("WHERE name LIKE ?");
 
             statement = prepareStatement(experienceStatement.toString());
 
-            for (int i = 1; i <= experience.size(); i++) {
+            for (int i = 1; i < experience.size(); i++) {
                 statement.setDouble(i, experience.toArray(new Double[0])[i]);
             }
 
@@ -311,6 +333,45 @@ public class MySQLSkillStorage implements StorageManager {
         }
 
         return stmt;
+    }
+
+    private void setDefaultSkills(String tableName, Player player) {
+        PreparedStatement statement;
+        PreparedStatement s2 = prepareStatement("SELECT COUNT(user_id) FROM " + tableName + " WHERE name = ?");
+        try {
+            s2.setString(1, player.getUniqueId().toString());
+            ResultSet resultSet = s2.executeQuery();
+            resultSet.next();
+            if (resultSet.getLong(1) == 0) {
+                Bukkit.broadcastMessage("Player doesn't exist");
+
+                StringBuilder ss  = new StringBuilder("INSERT INTO " + tableName + " (user_id, name, ");
+                for (SkillType type : SkillType.values()) {
+                    ss.append(type.toString().toUpperCase()).append(SkillType.values()[SkillType.values().length - 1] != type ? ", " : "");
+                }
+
+                ss.append(") " + "VALUES (");
+                ss.append("default, '").append(player.getUniqueId()).append("', ");
+
+                //it's 3 am and i'm too tired to think of a better solution
+                for (int i = 0; i < SkillType.values().length; i++) {
+                    ss.append(tableName.equalsIgnoreCase("runecraftskillxp") ? new PlayerSkillManager().calculateXpForLevel(1) : 1).append(i == SkillType.values().length - 1 ? "" : ", ");
+                }
+
+                ss.append(") ");
+
+
+                statement = prepareStatement(ss.toString());
+                Bukkit.broadcastMessage(statement.toString());
+                statement.execute();
+
+            } else {
+                Bukkit.broadcastMessage("Player does exist.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 

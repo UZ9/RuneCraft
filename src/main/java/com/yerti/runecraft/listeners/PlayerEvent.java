@@ -1,7 +1,8 @@
 package com.yerti.runecraft.listeners;
 
-import com.yerti.core.player.RunePlayer;
+import com.yerti.runecraft.player.RunePlayer;
 import com.yerti.runecraft.RuneCraft;
+import com.yerti.runecraft.storage.StorageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,7 +17,7 @@ public class PlayerEvent implements Listener {
         if (RuneCraft.getInstance().debugMode()) Bukkit.getLogger().log(Level.INFO,  "Adding player to database..");
 
         //Create profile if it doesn't exist
-        RunePlayer.getPlayer(event.getPlayer());
+        RuneCraft.getInstance().getStorageManager().savePlayer(event.getPlayer());
 
 
 

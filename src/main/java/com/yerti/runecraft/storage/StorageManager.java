@@ -31,12 +31,6 @@ public interface StorageManager {
     PlayerSkillManager retrieveManager(UUID id);
 
 
-    /**
-     * Creates a player if it does not exist
-     * @param player
-     */
-    void createPlayer(PlayerSkillManager player);
-
 
 
 

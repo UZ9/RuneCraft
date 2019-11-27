@@ -1,6 +1,5 @@
-package com.yerti.core.prototype.command;
+package com.yerti.core.command;
 
-import com.yerti.runecraft.RuneCraft;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

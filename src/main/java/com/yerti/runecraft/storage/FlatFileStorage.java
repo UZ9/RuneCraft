@@ -45,8 +45,5 @@ public class FlatFileStorage implements StorageManager {
         return null;
     }
 
-    @Override
-    public void createPlayer(PlayerSkillManager player) {
 
-    }
 }

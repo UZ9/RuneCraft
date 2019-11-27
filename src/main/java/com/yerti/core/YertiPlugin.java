@@ -1,6 +1,6 @@
-package com.yerti.core.prototype;
+package com.yerti.core;
 
-import com.yerti.core.prototype.command.CommandFramework;
+import com.yerti.core.command.CommandFramework;
 import com.yerti.runecraft.commands.RuneCraftCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -13,8 +13,8 @@ public class YertiPlugin extends JavaPlugin {
     /**
      * Loads needed resources
      */
-    protected void load() {
-        new CommandFramework(this, RuneCraftCommand.class);
+    protected void load(Class<?> commandClass) {
+        new CommandFramework(this, commandClass);
     }
 
 }

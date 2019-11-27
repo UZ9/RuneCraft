@@ -1,6 +1,6 @@
 package com.yerti.runecraft.listeners;
 
-import com.yerti.core.player.RunePlayer;
+import com.yerti.runecraft.player.RunePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
