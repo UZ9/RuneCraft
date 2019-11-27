@@ -20,9 +20,6 @@ repositories {
         url "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
     }
 
-    maven {
-        url "http://maven.husk.pro/repository/internal/"
-    }
 }
 
 jar.destinationDir = file("C:\\Users\\chess\\Desktop\\Spigot 1.8\\plugins")

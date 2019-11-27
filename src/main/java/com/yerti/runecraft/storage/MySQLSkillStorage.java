@@ -177,7 +177,6 @@ public class MySQLSkillStorage implements StorageManager {
 
             Bukkit.getScheduler().scheduleSyncDelayedTask(RuneCraft.getInstance(), () -> {
                 try {
-                    Bukkit.broadcastMessage("Column cdount is " + metaData.getColumnCount());
                     for (int i = 2; i < metaData.getColumnCount(); i++) {
                         manager.setXp(SkillType.valueOf(metaData.getColumnName(i + 1).toUpperCase()), set.getDouble(i + 1));
                     }
@@ -196,7 +195,6 @@ public class MySQLSkillStorage implements StorageManager {
 
     public void loadPlayer(Player player) {
         PlayerSkillManager manager = retrieveManager(player.getUniqueId());
-        ChatManager.info(player, "Manager mining xp: " + manager.getXp(SkillType.MINING));
         RunePlayer.getPlayer(player).setLevelManager(manager);
     }
 
@@ -244,8 +242,6 @@ public class MySQLSkillStorage implements StorageManager {
 
             statement.setString(levels.size() + 1, player.getUniqueId().toString());
 
-            ChatManager.info(player, "Running PreparedStatements...");
-
 
             statement.execute();
 
@@ -269,7 +265,6 @@ public class MySQLSkillStorage implements StorageManager {
 
             statement.execute();
 
-            ChatManager.success(player, "Done!");
 
 
 

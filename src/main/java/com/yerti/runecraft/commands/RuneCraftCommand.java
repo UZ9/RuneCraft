@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 
 public class RuneCraftCommand {
 
-    @CustomCommand(name = "runecraft", permission = "", aliases = "rc", description = "Base rCusfesftomCommand for runecraft", usage = "/runecraft")
+    @CustomCommand(name = "runecraft", permission = "", aliases = "rc", description = "Base command for runecraft", usage = "/runecraft")
     public void runecraftCommand(CommandSender sender, org.bukkit.command.Command command, String[] args) {
 
         if (!(sender instanceof Player)) {
@@ -30,7 +30,7 @@ public class RuneCraftCommand {
 
     }
 
-    @SubCommand(parent = "runecraft", name = "wack", permission = "", usage = "/runecraft wack", description = "Does stuff")
+    @SubCommand(parent = "runecraft", name = "wack", permission = "", usage = "/runecraft wack", description = "Currently serves no purpose other than testing")
     public void wackCommand(CommandSender sender, Command command, String[] args) {
         if (!(sender instanceof Player)) {
             System.out.println("Only players are allowed to use this command!");
