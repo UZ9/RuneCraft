@@ -6,6 +6,10 @@ import org.bukkit.entity.Player;
 
 public class ChatManager {
 
+    public static void blank(Player player, String message) {
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+    }
+
     public static void success(Player player,  String message) {
         player.sendMessage(getPrefix() + " " + ChatColor.DARK_GRAY + "\u00BB " + ChatColor.GREEN + ChatColor.translateAlternateColorCodes('&', message));
     }

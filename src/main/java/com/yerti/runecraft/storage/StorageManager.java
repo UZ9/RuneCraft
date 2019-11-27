@@ -30,6 +30,12 @@ public interface StorageManager {
      */
     PlayerSkillManager retrieveManager(UUID id);
 
+    /**
+     * Loads an already existing player in the OnEnable
+     * @param player
+     */
+    void loadPlayer(Player player);
+
 
 
 

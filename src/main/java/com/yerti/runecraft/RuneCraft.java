@@ -6,8 +6,10 @@ import com.yerti.runecraft.listeners.OnBlockBreakEvent;
 import com.yerti.runecraft.listeners.PlayerEvent;
 import com.yerti.runecraft.managers.ChatManager;
 import com.yerti.runecraft.player.RunePlayer;
+import com.yerti.runecraft.runnables.PlayerSavingTask;
 import com.yerti.runecraft.storage.MySQLSkillStorage;
 import com.yerti.runecraft.storage.StorageManager;
+import com.yerti.runecraft.utils.StackChanger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -47,9 +49,14 @@ public class RuneCraft extends YertiPlugin {
         storageManager.setup();
 
         for (Player player : Bukkit.getOnlinePlayers()) {
-            storageManager.savePlayer(player);
             playerData.add(new RunePlayer(player));
+            storageManager.loadPlayer(player);
+
         }
+
+        startRunnables();
+
+        new StackChanger();
 
 
 
@@ -73,6 +80,11 @@ public class RuneCraft extends YertiPlugin {
 
     private void loadConfig() {
         debug = getConfig().getBoolean("debug-mode");
+    }
+
+    private void startRunnables() {
+        //5 minute save to mysql
+        Bukkit.getScheduler().runTaskTimer(this, new PlayerSavingTask(),  20L * 60L, 20L * 60L * 5L);
     }
 
     public static RuneCraft getInstance() {

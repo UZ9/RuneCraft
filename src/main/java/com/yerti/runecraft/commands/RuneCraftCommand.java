@@ -2,9 +2,11 @@ package com.yerti.runecraft.commands;
 
 import com.yerti.core.command.CustomCommand;
 import com.yerti.core.command.SubCommand;
+import com.yerti.core.utils.CenterFontUtil;
 import com.yerti.runecraft.managers.ChatManager;
 import com.yerti.runecraft.player.RunePlayer;
 import com.yerti.runecraft.skills.SkillType;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -37,22 +39,33 @@ public class RuneCraftCommand {
 
         Player player = (Player) sender;
 
-
-        RunePlayer runePlayer = RunePlayer.getPlayer(player);
-
-        ChatManager.info(player, player.getName() + " has " + ChatColor.YELLOW + runePlayer.getLevelManager().getLevelsXp().get(SkillType.MINING) + ChatColor.GRAY + " levels in mining.");
     }
 
-    @SubCommand(parent = "runecraft", name = "wack2", permission = "", usage = "/runecraft wack", description = "Does stuff")
-    public void wackCommand2(CommandSender sender, Command command, String[] args) {
+    @SubCommand(parent = "runecraft", name = "stats", permission = "", usage = "/runecraft stats", description = "Shows the stats for the player.")
+    public void statsCommand(CommandSender sender, Command command, String[] args) {
         if (!(sender instanceof Player)) {
             System.out.println("Only players are allowed to use this command!");
             return;
         }
 
-        Player player = (Player) sender;
+        RunePlayer player = RunePlayer.getPlayer((Player) sender);
+        Player p = null;
+        if (player != null) {
+            p = player.getPlayer();
+        } else {
+            ChatManager.error((Player) sender, "An error with your player seemed to have occured. Please try relogging.");
+            return;
+        }
 
-        ChatManager.info(player, "You have used the wack command. Epic!");
+        CenterFontUtil.sendCenteredMessage(p, "&a&m-------------------------------------------------");
+        CenterFontUtil.sendCenteredMessage(p, "&f&lStats");
+        CenterFontUtil.sendCenteredMessage(p, "");
+
+        for (SkillType skillType : player.getLevelManager().getLevelsXp().keySet()) {
+            CenterFontUtil.sendCenteredMessage(p, "&e" + StringUtils.capitalize(skillType.toString().toLowerCase()) + ": &6" + player.getLevelManager().getXp(skillType) + "xp");
+        }
+        CenterFontUtil.sendCenteredMessage(p, "&a&m-------------------------------------------------");
+
     }
 
 }

@@ -20,7 +20,7 @@ public class PlayerSkillManager implements Serializable {
     public PlayerSkillManager() {
 
         for (SkillType type : SkillType.values()) {
-            levels.put(type, 30);
+            levels.put(type, 1);
             levelsXp.put(type, calculateXpForLevel(1));
         }
     }
@@ -50,9 +50,16 @@ public class PlayerSkillManager implements Serializable {
      * @param name
      * @return XP Amount
      */
-    public double getXp(String name) {
-        return levelsXp.get(SkillType.valueOf(name.toUpperCase()));
+    public double getXp(SkillType name) {
+        return levelsXp.get(name);
     }
+
+    /**
+     * Gets the levels of a skill
+     * @param name
+     * @return Level Amount
+     */
+    public double getLevel(SkillType name) { return levels.get(name); }
 
 
     /**
