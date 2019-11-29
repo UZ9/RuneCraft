@@ -1,5 +1,6 @@
 package com.yerti.core.utils;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -52,6 +53,12 @@ public class Utilities {
         }
 
         return freeSlots >= slots;
+    }
+
+    public static String convertToInvisibleString(String s) {
+        StringBuilder hidden = new StringBuilder();
+        for (char c : s.toCharArray()) hidden.append(ChatColor.COLOR_CHAR + "").append(c);
+        return hidden.toString();
     }
 
 

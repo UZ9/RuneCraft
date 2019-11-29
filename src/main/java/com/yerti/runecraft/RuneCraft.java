@@ -57,6 +57,7 @@ public class RuneCraft extends YertiPlugin {
         startRunnables();
 
         new StackChanger();
+        new PlayerEvent();
 
 
 
