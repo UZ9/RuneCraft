@@ -1,6 +1,6 @@
 package com.yerti.runecraft;
 
-import com.yerti.core.YertiPlugin;
+import com.yerti.runecraft.core.YertiPlugin;
 import com.yerti.runecraft.commands.RuneCraftCommand;
 import com.yerti.runecraft.listeners.OnBlockBreakEvent;
 import com.yerti.runecraft.listeners.PlayerEvent;

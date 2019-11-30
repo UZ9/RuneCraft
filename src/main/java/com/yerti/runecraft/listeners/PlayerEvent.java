@@ -1,11 +1,9 @@
 package com.yerti.runecraft.listeners;
 
-import com.yerti.core.items.CustomItemStack;
-import com.yerti.core.titles.ActionBar;
-import com.yerti.core.titles.Title;
-import com.yerti.core.utils.Utilities;
+import com.yerti.runecraft.core.items.CustomItemStack;
+import com.yerti.runecraft.core.titles.ActionBar;
+import com.yerti.runecraft.core.utils.Utilities;
 import com.yerti.runecraft.RuneCraft;
-import com.yerti.runecraft.managers.ChatManager;
 import com.yerti.runecraft.player.RunePlayer;
 import com.yerti.runecraft.skills.SkillType;
 import org.bukkit.Bukkit;

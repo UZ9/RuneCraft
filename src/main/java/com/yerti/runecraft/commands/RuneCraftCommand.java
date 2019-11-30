@@ -1,14 +1,12 @@
 package com.yerti.runecraft.commands;
 
-import com.yerti.core.command.CustomCommand;
-import com.yerti.core.command.SubCommand;
-import com.yerti.core.utils.CenterFontUtil;
+import com.yerti.runecraft.core.command.CustomCommand;
+import com.yerti.runecraft.core.command.SubCommand;
+import com.yerti.runecraft.core.utils.CenterFontUtil;
 import com.yerti.runecraft.managers.ChatManager;
 import com.yerti.runecraft.player.RunePlayer;
 import com.yerti.runecraft.skills.SkillType;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
